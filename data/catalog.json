@@ -418,6 +418,49 @@
       "path": "data/promotion_conditions.csv",
       "row_count": 2,
       "sha256": "9763670e0f59daf6540d8397294bd65de75ab7fd6168a804ef4df2f0979ef456"
+    },
+    {
+      "name": "pilot_requirements",
+      "description": "候选进入中试的制造资源需求，不含未来成功率答案。",
+      "columns": [
+        {
+          "name": "recipe_id",
+          "type": "string",
+          "description": "候选",
+          "nullable": true
+        },
+        {
+          "name": "area_m2",
+          "type": "number",
+          "description": "试制面积",
+          "nullable": true
+        },
+        {
+          "name": "setup_cost",
+          "type": "number",
+          "description": "开线固定费",
+          "nullable": true
+        },
+        {
+          "name": "batches",
+          "type": "integer",
+          "description": "需要制备批次",
+          "nullable": true
+        }
+      ],
+      "key": [
+        "recipe_id"
+      ],
+      "references": [
+        {
+          "column": "recipe_id",
+          "target_table": "recipes",
+          "target_column": "recipe_id"
+        }
+      ],
+      "path": "data/pilot_requirements.csv",
+      "row_count": 12,
+      "sha256": "25758ffb03a5567843c34e6a8a1fb556ff1c632beee0bd43860bfbe16f06a68a"
     }
   ]
 }
