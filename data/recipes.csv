@@ -1,0 +1,13 @@
+recipe_id,route,material,cost_m2
+R1,route2,M2,140
+R2,route3,M3,160
+R3,route1,M4,180
+R4,route2,M1,200
+R5,route3,M2,220
+R6,route1,M3,240
+R7,route2,M4,260
+R8,route3,M1,280
+R9,route1,M2,300
+R10,route2,M3,320
+R11,route3,M4,340
+R12,route1,M1,360

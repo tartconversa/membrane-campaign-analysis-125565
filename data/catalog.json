@@ -1,0 +1,423 @@
+{
+  "title": "液流电池隔膜研发的候选晋级与实验预算",
+  "synthetic": true,
+  "tables": [
+    {
+      "name": "recipes",
+      "description": "候选路线。",
+      "columns": [
+        {
+          "name": "recipe_id",
+          "type": "string",
+          "description": "候选",
+          "nullable": true
+        },
+        {
+          "name": "route",
+          "type": "string",
+          "description": "路线",
+          "nullable": true
+        },
+        {
+          "name": "material",
+          "type": "string",
+          "description": "原料",
+          "nullable": true
+        },
+        {
+          "name": "cost_m2",
+          "type": "number",
+          "description": "每平方米成本",
+          "nullable": true
+        }
+      ],
+      "key": [
+        "recipe_id"
+      ],
+      "references": [],
+      "path": "data/recipes.csv",
+      "row_count": 12,
+      "sha256": "550942af07e4e0e4bcfb0ffdd41a7e6a9213841b1f6fe42aad32b782897df745"
+    },
+    {
+      "name": "batches",
+      "description": "制造成功失败均保留。",
+      "columns": [
+        {
+          "name": "batch_id",
+          "type": "string",
+          "description": "批",
+          "nullable": true
+        },
+        {
+          "name": "recipe_id",
+          "type": "string",
+          "description": "候选",
+          "nullable": true
+        },
+        {
+          "name": "made_at",
+          "type": "date",
+          "description": "制备",
+          "nullable": true
+        },
+        {
+          "name": "gross_area_cm2",
+          "type": "number",
+          "description": "制备面积",
+          "nullable": true
+        },
+        {
+          "name": "yield_state",
+          "type": "string",
+          "description": "制造结果",
+          "nullable": true
+        },
+        {
+          "name": "available_at",
+          "type": "datetime",
+          "description": "可知",
+          "nullable": true
+        }
+      ],
+      "key": [
+        "batch_id"
+      ],
+      "references": [
+        {
+          "column": "recipe_id",
+          "target_table": "recipes",
+          "target_column": "recipe_id"
+        }
+      ],
+      "path": "data/batches.csv",
+      "row_count": 60,
+      "sha256": "6f0eaac2dcbaf8a52cee673f884a212a7c1a6bfae08807a290a10c146a980646"
+    },
+    {
+      "name": "coupons",
+      "description": "已切片库存，切片前母材余额另列。",
+      "columns": [
+        {
+          "name": "coupon_id",
+          "type": "string",
+          "description": "试样",
+          "nullable": true
+        },
+        {
+          "name": "batch_id",
+          "type": "string",
+          "description": "批",
+          "nullable": true
+        },
+        {
+          "name": "area_cm2",
+          "type": "number",
+          "description": "面积",
+          "nullable": true
+        },
+        {
+          "name": "state",
+          "type": "string",
+          "description": "used或available",
+          "nullable": true
+        },
+        {
+          "name": "destroyed",
+          "type": "boolean",
+          "description": "试验后破坏",
+          "nullable": true
+        }
+      ],
+      "key": [
+        "coupon_id"
+      ],
+      "references": [
+        {
+          "column": "batch_id",
+          "target_table": "batches",
+          "target_column": "batch_id"
+        }
+      ],
+      "path": "data/coupons.csv",
+      "row_count": 168,
+      "sha256": "8436cdd85b39a14d557fc06b36fd82565b52234cff4e5ec07a2382fc6cf09324"
+    },
+    {
+      "name": "results",
+      "description": "部分实验尚无最终指标。",
+      "columns": [
+        {
+          "name": "result_id",
+          "type": "string",
+          "description": "结果",
+          "nullable": true
+        },
+        {
+          "name": "coupon_id",
+          "type": "string",
+          "description": "试样",
+          "nullable": true
+        },
+        {
+          "name": "fidelity",
+          "type": "string",
+          "description": "bench或stack",
+          "nullable": true
+        },
+        {
+          "name": "metric",
+          "type": "string",
+          "description": "指标",
+          "nullable": true
+        },
+        {
+          "name": "temperature_c",
+          "type": "number",
+          "description": "温度",
+          "nullable": true
+        },
+        {
+          "name": "current_density",
+          "type": "number",
+          "description": "电流密度",
+          "nullable": true
+        },
+        {
+          "name": "value",
+          "type": "number",
+          "description": "值或未知",
+          "nullable": true
+        },
+        {
+          "name": "state",
+          "type": "string",
+          "description": "running或finished",
+          "nullable": true
+        },
+        {
+          "name": "available_at",
+          "type": "datetime",
+          "description": "可知",
+          "nullable": true
+        }
+      ],
+      "key": [
+        "result_id"
+      ],
+      "references": [
+        {
+          "column": "coupon_id",
+          "target_table": "coupons",
+          "target_column": "coupon_id"
+        }
+      ],
+      "path": "data/results.csv",
+      "row_count": 276,
+      "sha256": "bfeb43610259a8156d685545c25559298927ef417cc5890221e6ff901efa4d74"
+    },
+    {
+      "name": "material_balance",
+      "description": "批次剩余母材面积，等于成功批毛面积减三片及切损。",
+      "columns": [
+        {
+          "name": "batch_id",
+          "type": "string",
+          "description": "批",
+          "nullable": true
+        },
+        {
+          "name": "remaining_area_cm2",
+          "type": "number",
+          "description": "未切余量",
+          "nullable": true
+        }
+      ],
+      "key": [
+        "batch_id"
+      ],
+      "references": [
+        {
+          "column": "batch_id",
+          "target_table": "batches",
+          "target_column": "batch_id"
+        }
+      ],
+      "path": "data/material_balance.csv",
+      "row_count": 56,
+      "sha256": "34e96492ac9b2991b36c76ec601c8cc79ce5629a35ccf4a170c71d44cf5677d9"
+    },
+    {
+      "name": "test_options",
+      "description": "实验资源与费用。",
+      "columns": [
+        {
+          "name": "option_id",
+          "type": "string",
+          "description": "实验",
+          "nullable": true
+        },
+        {
+          "name": "fidelity",
+          "type": "string",
+          "description": "层级",
+          "nullable": true
+        },
+        {
+          "name": "area_cm2",
+          "type": "number",
+          "description": "所需面积",
+          "nullable": true
+        },
+        {
+          "name": "duration_days",
+          "type": "integer",
+          "description": "时长",
+          "nullable": true
+        },
+        {
+          "name": "cost",
+          "type": "number",
+          "description": "费用",
+          "nullable": true
+        },
+        {
+          "name": "destroys",
+          "type": "boolean",
+          "description": "结束破坏",
+          "nullable": true
+        }
+      ],
+      "key": [
+        "option_id"
+      ],
+      "references": [],
+      "path": "data/test_options.csv",
+      "row_count": 3,
+      "sha256": "e34c32f80da47b31e34ad496d8ddb63b64bde8dc9d6049851566334f0e1a81b3"
+    },
+    {
+      "name": "equipment",
+      "description": "未来共享实验资源。",
+      "columns": [
+        {
+          "name": "slot_id",
+          "type": "string",
+          "description": "时段",
+          "nullable": true
+        },
+        {
+          "name": "kind",
+          "type": "string",
+          "description": "bench或stack",
+          "nullable": true
+        },
+        {
+          "name": "start",
+          "type": "date",
+          "description": "开始",
+          "nullable": true
+        },
+        {
+          "name": "end",
+          "type": "date",
+          "description": "结束",
+          "nullable": true
+        },
+        {
+          "name": "capacity",
+          "type": "integer",
+          "description": "并行数",
+          "nullable": true
+        },
+        {
+          "name": "reserved",
+          "type": "integer",
+          "description": "其他占用",
+          "nullable": true
+        }
+      ],
+      "key": [
+        "slot_id",
+        "kind"
+      ],
+      "references": [],
+      "path": "data/equipment.csv",
+      "row_count": 6,
+      "sha256": "84bbeb4334e44111dc3102c0e6c5142be37db8886c3b7d8a99061694dad874e3"
+    },
+    {
+      "name": "promotion_conditions",
+      "description": "中试工况与联合门槛。",
+      "columns": [
+        {
+          "name": "application_id",
+          "type": "string",
+          "description": "用途",
+          "nullable": true
+        },
+        {
+          "name": "temperature_c",
+          "type": "number",
+          "description": "温度",
+          "nullable": true
+        },
+        {
+          "name": "current_density",
+          "type": "number",
+          "description": "密度",
+          "nullable": true
+        },
+        {
+          "name": "min_conductivity",
+          "type": "number",
+          "description": "导电下限",
+          "nullable": true
+        },
+        {
+          "name": "max_crossover",
+          "type": "number",
+          "description": "渗透上限",
+          "nullable": true
+        },
+        {
+          "name": "min_durability",
+          "type": "number",
+          "description": "耐久下限",
+          "nullable": true
+        },
+        {
+          "name": "max_cost_m2",
+          "type": "number",
+          "description": "成本上限",
+          "nullable": true
+        },
+        {
+          "name": "pilot_places",
+          "type": "integer",
+          "description": "名额",
+          "nullable": true
+        },
+        {
+          "name": "budget",
+          "type": "number",
+          "description": "中试预算",
+          "nullable": true
+        },
+        {
+          "name": "experiment_budget",
+          "type": "number",
+          "description": "本轮实验预算",
+          "nullable": true
+        }
+      ],
+      "key": [
+        "application_id"
+      ],
+      "references": [],
+      "path": "data/promotion_conditions.csv",
+      "row_count": 2,
+      "sha256": "9763670e0f59daf6540d8397294bd65de75ab7fd6168a804ef4df2f0979ef456"
+    }
+  ]
+}

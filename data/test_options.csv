@@ -1,0 +1,4 @@
+option_id,fidelity,area_cm2,duration_days,cost,destroys
+O1,bench,10,2,200,false
+O2,stack,20,8,1800,true
+O3,durability,20,12,900,true
